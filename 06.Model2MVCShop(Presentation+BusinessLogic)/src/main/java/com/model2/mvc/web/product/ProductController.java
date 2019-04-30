@@ -2,6 +2,7 @@ package com.model2.mvc.web.product;
 
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -62,17 +63,30 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do")
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, HttpServletRequest request ) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, HttpServletRequest request) throws Exception {
 		
 		System.out.println("/getProduct.do");
-		//int productNo=Integer.parseInt(prodNo);
 		
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 		// Model °ú View ¿¬°á
 		model.addAttribute("product", product);
 
-		System.out.println("µð¹ö±ë@@@@@@@@@@"+product.getRegDate());
+//		
+//		Cookie[] cookie = request.getCookies();
+//		for(int i=0; i<cookie.length; i++ ) {
+//			if (cookie[i].getName().equals("history")) {
+//				cookie[i].setValue(cookie[i].getValue()+","+Integer.toString(prodNo));
+//			}else (cookie[i]==null){
+//				
+//			}
+//		}
+//		if(cookie == null) {
+//			cookie = new Cookie("history", Integer.toString(prodNo) );
+//		}else {
+//			cookie.setValue("history")
+//		}
+		
 		
 		if ( request.getParameter("menu").equals("manage") ) {
 			return "forward:/updateProductView.do";
@@ -101,7 +115,8 @@ public class ProductController {
 		productService.updateProduct(product);
 
 		model.addAttribute("product", product);
-		System.out.println("µð¹ö±ë@@@@@@@@@@"+product.getRegDate());
+		System.out.println("µð¹ö±ë1@@@@@@@@@@"+product.getRegDate());
+		System.out.println("µð¹ö±ë2@@@@@@@@@@"+product.getManuDate());
 		
 		return "forward:/product/getProduct.jsp?prodNo="+product.getProdNo();
 	}

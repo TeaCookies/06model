@@ -43,7 +43,6 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> getProductList(Search search) throws Exception {
-		//search.setSearchKeyword("%"+search.getSearchKeyword()+"%");
 		return sqlSession.selectList("ProductMapper.getProductList", search);
 	}
 
