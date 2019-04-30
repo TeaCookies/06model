@@ -64,7 +64,7 @@
 											 			AND p.prod_no = #{searchKeyword}
 													</if>
 													<if test="searchCondition == 1 and searchKeyword !='' ">
-											 			AND prod_name LIKE #{searchKeyword}
+											 			AND prod_name LIKE '%'||#{searchKeyword}||'%'
 													</if>
 													<if test="searchCondition == 2 and searchKeyword !='' ">
 											 			AND price = #{searchKeyword}

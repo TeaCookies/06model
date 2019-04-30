@@ -125,6 +125,10 @@ public class PurchaseController {
 
 		System.out.println("/updatePurchase.do");
 		//Business Logic
+		
+		System.out.println("트랜코드 확인1@@@@@"+purchase.getTranCode());
+		System.out.println("확인!!!!!! "+purchase);
+		
 		purchaseService.updatePurchase(purchase);
 
 		model.addAttribute("purchase", purchase);
@@ -179,10 +183,13 @@ public class PurchaseController {
 		}
 		search.setPageSize(pageSize);
 		HttpSession session = request.getSession();
-		String buyerId = ((User)session.getAttribute("user")).getUserId();
+		Purchase purchase = new Purchase();
+		purchase.setBuyer((User)session.getAttribute("user"));
+		
+		//String buyerId = ((User)session.getAttribute("user")).getUserId();
 		
 		// Business logic 수행
-		Map<String , Object> map=purchaseService.getPurchaseList(search, buyerId);
+		Map<String , Object> map=purchaseService.getPurchaseList(search, purchase.getBuyer().getUserId());
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
@@ -191,6 +198,8 @@ public class PurchaseController {
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
+		
+		System.out.println("@@@    list    @@@@"+map.get("list"));
 		
 		return "forward:/purchase/listPurchase.jsp";
 	}

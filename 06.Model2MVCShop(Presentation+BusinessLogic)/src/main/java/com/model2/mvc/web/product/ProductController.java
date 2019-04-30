@@ -120,6 +120,8 @@ public class ProductController {
 		System.out.println("/updateProductView.do");
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
+
+		System.out.println("µð¹ö±ë1@@@@@@@@@@"+product.getRegDate());
 		// Model °ú View ¿¬°á
 		model.addAttribute("product", product);
 		
@@ -132,10 +134,10 @@ public class ProductController {
 		System.out.println("/updateProduct.do");
 		//Business Logic
 		productService.updateProduct(product);
+		product = productService.getProduct(product.getProdNo());
 
 		model.addAttribute("product", product);
-		System.out.println("µð¹ö±ë1@@@@@@@@@@"+product.getRegDate());
-		System.out.println("µð¹ö±ë2@@@@@@@@@@"+product.getManuDate());
+		System.out.println("µð¹ö±ë2@@@@@@@@@@"+product.getRegDate());
 		
 		return "forward:/product/getProduct.jsp?prodNo="+product.getProdNo();
 	}

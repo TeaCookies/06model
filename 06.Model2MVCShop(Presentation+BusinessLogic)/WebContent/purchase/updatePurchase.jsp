@@ -15,7 +15,7 @@
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchase.tranNo}">
-<input type="hidden" name="tranCode" value="${pusrchase.tranCode}" />
+<input type="hidden" name="tranCode" value="${purchase.tranCode}" />
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td width="15" height="37">
