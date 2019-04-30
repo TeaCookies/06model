@@ -66,35 +66,36 @@
 				<c:set var="i" value="0" />
 				<c:forEach var="purchase" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
-					<tr class="ct_list_pop">
-						<td align="center"><a href="/getPurchase.do?tranNo=${purchase.tranNo}"> ${ i }</a></td>
-					<td></td>
-					<td align="left"><a href="/getUser.do?userId=${purchase.buyer.userId}"> ${purchase.buyer.userId}</a></td>
-					<td></td>
-					<td align="left">${purchase.buyer.userName }</td>
-					<td></td>
-					<td align="left"> ${purchase.buyer.phone}</td>
-					<td></td>
-					<td align="left">
-					
-					<c:choose>
-					<c:when test="${purchase.tranCode eq '1' }">
-						구매 완료 
-					</c:when>
-					<c:when test="${purchase.tranCode eq '2' }">
-						배송 중
-					</c:when>
-					<c:when test="${purchase.tranCode eq '3' }"> 
-						배송 완료 
-					</c:when>
-					<c:otherwise>
-						????? :: ${purchase.tranCode} 
-					</c:otherwise>
-					</c:choose>
-					</td>
-					<td></td>
-					<td align="left">
-					
+						<tr class="ct_list_pop">
+							<td align="center"><a href="/getPurchase.do?tranNo=${purchase.tranNo}"> ${ i }</a></td>
+						<td></td>
+						<td align="left"><a href="/getUser.do?userId=${purchase.buyer.userId}"> ${purchase.buyer.userId}</a></td>
+						<td></td>
+						<td align="left">${purchase.buyer.userName }</td>
+						<td></td>
+						<td align="left"> ${purchase.buyer.phone}</td>
+						<td></td>
+						<td align="left">
+						
+						<c:choose>
+							<c:when test="${purchase.tranCode eq '1' }">
+								구매 완료 
+							</c:when>
+							<c:when test="${purchase.tranCode eq '2' }">
+								배송 중
+							</c:when>
+							<c:when test="${purchase.tranCode eq '3' }"> 
+								배송 완료 
+							</c:when>
+							<c:otherwise>
+								????? :: ${purchase.tranCode} 
+							</c:otherwise>
+						</c:choose>
+						
+						</td>
+						<td></td>
+						<td align="left">
+						
 						<c:choose>
 							<c:when test="${purchase.tranCode eq '2' }">
 								<a href="updateTranCode.do?prodNo=${purchase.purchaseProd.prodNo}
@@ -110,11 +111,11 @@
 					</td>
 					<td></td>
 					<td align="left"></td>
-				</tr>
-
-				<tr>
-					<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-				</tr>
+					</tr>
+	
+					<tr>
+						<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+					</tr>
 				</c:forEach>
 			</table>
 

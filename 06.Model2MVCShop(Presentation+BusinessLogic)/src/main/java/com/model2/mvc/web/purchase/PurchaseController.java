@@ -147,17 +147,15 @@ public class PurchaseController {
 		
 		Product product = productService.getProduct(prodNo);
 		purchase = purchaseService.getPurchase2(prodNo);
-		
-		System.out.println("###############################"+purchase);
 	
 		if (request.getParameter("tranCode").trim().equals("1")) {
 			product.setProTranCode("2");
 		} else if (request.getParameter("tranCode").trim().equals("2")) {
 			product.setProTranCode("3");
 		}	
-		System.out.println("@@@@@@@@È®ÀÎ¿ë@@@@@@@@@"+product.getProTranCode());
+		
 		purchase.setTranCode(product.getProTranCode());
-		System.out.println("===============================================");
+		
 		//Business Logic
 		purchaseService.updateTranCode(purchase);
 

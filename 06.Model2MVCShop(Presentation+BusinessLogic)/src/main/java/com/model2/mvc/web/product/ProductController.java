@@ -1,6 +1,5 @@
 package com.model2.mvc.web.product;
 
-import java.awt.image.RescaleOp;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,49 +67,30 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do")
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, @CookieValue(value="history") Cookie cookie ,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, @CookieValue(value="history", required=false)  Cookie cookie ,HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
-		model.addAttribute("product", product);
-
-		if (cookie != null) {
-			if (!(cookie.getValue().contains(Integer.toString(prodNo)))) {
-				cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
-				response.addCookie(cookie);
-			}
-		}else {
-			response.addCookie(new Cookie("history", Integer.toString(prodNo)));
-		}
-		
-//		Cookie[] cookies = request.getCookies();
-//		
-//		
-//		if (cookies != null && cookies.length > 0 ){
-//			for(int i=0; i<cookies.length; i++ ) {
-//				Cookie cookie = cookies[i];
-//				if (cookie.getName().equals("history")) {
-//					cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
-//					response.addCookie(cookie);
-//				}//안쪽에 else if문 생성하고 조건을 쿠키 네임이 history가 아닐경우로 설정하면 : history 외의 쿠키(j세션)일때 히스토리가 없는 것으로 간주하고 히스토리 쿠키를 또 다시 생성해 덮어씌움
-//			}
-//		}
-//		if (cook.equals("")){
-//			Cookie cookie = new Cookie("history", request.getParameter("prodNo"));
-//			cookie.setMaxAge(-1);
-//			response.addCookie(cookie);
-//		}
-		
-		
-
-		
+		model.addAttribute("product", product);	
 		
 		if ( request.getParameter("menu").equals("manage") ) {
+			
 			return "forward:/updateProductView.do";
+			
 		} else {
+			
+			if (cookie != null) {
+				if (!(cookie.getValue().contains(Integer.toString(prodNo)))) {
+					cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
+					response.addCookie(cookie);
+				}
+			}else {
+				response.addCookie(new Cookie("history", Integer.toString(prodNo)));
+			}
+			
 			return "forward:/product/getProduct.jsp";
 		}
 	}
@@ -121,7 +102,6 @@ public class ProductController {
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
 
-		System.out.println("디버깅1@@@@@@@@@@"+product.getRegDate());
 		// Model 과 View 연결
 		model.addAttribute("product", product);
 		
@@ -137,7 +117,6 @@ public class ProductController {
 		product = productService.getProduct(product.getProdNo());
 
 		model.addAttribute("product", product);
-		System.out.println("디버깅2@@@@@@@@@@"+product.getRegDate());
 		
 		return "forward:/product/getProduct.jsp?prodNo="+product.getProdNo();
 	}
