@@ -67,7 +67,8 @@
 				<c:forEach var="purchase" items="${list}">
 					<c:set var="i" value="${ i+1 }" />
 						<tr class="ct_list_pop">
-							<td align="center"><a href="/getPurchase.do?tranNo=${purchase.tranNo}"> ${ i }</a></td>
+							<td align="center">
+								<a href="/getPurchase.do?tranNo=${purchase.tranNo}">${ i }</a></td>
 						<td></td>
 						<td align="left"><a href="/getUser.do?userId=${purchase.buyer.userId}"> ${purchase.buyer.userId}</a></td>
 						<td></td>

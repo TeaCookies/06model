@@ -54,13 +54,15 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/addPurchaseView.do")
-	public String addPurchaseView(@ModelAttribute("purchase") Purchase purchase, Model model, HttpServletRequest request ) throws Exception {
+	public String addPurchaseView(@ModelAttribute("purchase") Purchase purchase, 
+												@RequestParam("prodNo") int prodNo,
+												Model model, 
+												HttpSession session) throws Exception {
 
 		System.out.println("/addPurchaseView.do");
 
-		int prodNo=Integer.parseInt(request.getParameter("prodNo"));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
-		purchase.setBuyer((User)request.getSession().getAttribute("user"));
+		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		model.addAttribute("purchase", purchase);
 		
@@ -71,13 +73,14 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/addPurchase.do")
-	public String addPurchase( @ModelAttribute("purchase") Purchase purchase, HttpServletRequest request  ) throws Exception {
+	public String addPurchase( @ModelAttribute("purchase") Purchase purchase, 
+											@RequestParam("prodNo") int prodNo,
+											HttpSession session ) throws Exception {
 
 		System.out.println("/addPurchase.do");
 		
-		int prodNo=Integer.parseInt(request.getParameter("prodNo"));
 		purchase.setPurchaseProd(productService.getProduct(prodNo));
-		purchase.setBuyer((User)request.getSession().getAttribute("user"));
+		purchase.setBuyer((User)session.getAttribute("user"));
 		
 		//Business Logic
 		purchaseService.addPurchase(purchase);
@@ -89,7 +92,8 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/getPurchase.do")
-	public String getPurchase( @RequestParam("tranNo") int tranNo , Model model, HttpServletRequest request ) throws Exception {
+	public String getPurchase( @RequestParam("tranNo") int tranNo , 
+																	Model model ) throws Exception {
 		
 		System.out.println("/getPurchase.do");
 		
@@ -105,7 +109,8 @@ public class PurchaseController {
 
 	
 	@RequestMapping("/updatePurchaseView.do")
-	public String updatePurchaseView( @RequestParam("tranNo") int tranNo , Model model ) throws Exception{
+	public String updatePurchaseView( @RequestParam("tranNo") int tranNo , 
+																			Model model ) throws Exception{
 
 		System.out.println("/updatePurchaseView.do");
 		//Business Logic
@@ -136,16 +141,19 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/updateTranCode.do")
-	public String updateTranCode( @ModelAttribute("purchase") Purchase purchase , Model model, HttpServletRequest request) throws Exception{
+	public String updateTranCode( @ModelAttribute("purchase") Purchase purchase , 
+												@RequestParam("prodNo") int prodNo ,
+												@RequestParam("tranCode") String tranCode ,
+												Model model) throws Exception{
 
 		System.out.println("/updateTranCode.do");
 		
-		Product product = productService.getProduct(Integer.parseInt(request.getParameter("prodNo")));
-		purchase = purchaseService.getPurchase2(Integer.parseInt(request.getParameter("prodNo")));
+		Product product = productService.getProduct(prodNo);
+		purchase = purchaseService.getPurchase2(prodNo);
 	
-		if (request.getParameter("tranCode").trim().equals("1")) {
+		if (tranCode.trim().equals("1")) {
 			product.setProTranCode("2");
-		} else if (request.getParameter("tranCode").trim().equals("2")) {
+		} else if (tranCode.trim().equals("2")) {
 			product.setProTranCode("3");
 		}	
 		
@@ -156,7 +164,7 @@ public class PurchaseController {
 
 		model.addAttribute("purchase", purchase);
 		
-		if (request.getParameter("tranCode").trim().equals("1")) {
+		if (tranCode.trim().equals("1")) {
 			return "forward:/listProduct.do?menu=manage";
 		}else {	
 			return "forward:/listPurchase.do";
@@ -167,7 +175,9 @@ public class PurchaseController {
 	
 	
 	@RequestMapping("/listPurchase.do")
-	public String listPurchase( @ModelAttribute("search") Search search, Model model , HttpServletRequest request) throws Exception{
+	public String listPurchase( @ModelAttribute("search") Search search, 
+															Model model ,
+															HttpSession session) throws Exception{
 		
 		System.out.println("/listPurchase.do");
 		
@@ -175,13 +185,9 @@ public class PurchaseController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
-		
-		HttpSession session = request.getSession();
-		Purchase purchase = new Purchase();
-		purchase.setBuyer((User)session.getAttribute("user"));
-		
+				
 		// Business logic ผ๖วเ
-		Map<String , Object> map=purchaseService.getPurchaseList(search, purchase.getBuyer().getUserId());
+		Map<String , Object> map=purchaseService.getPurchaseList(search, ((User)session.getAttribute("user")).getUserId());
 		
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
