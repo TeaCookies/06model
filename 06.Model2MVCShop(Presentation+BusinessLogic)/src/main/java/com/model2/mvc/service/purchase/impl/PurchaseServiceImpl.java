@@ -1,7 +1,5 @@
 package com.model2.mvc.service.purchase.impl;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +9,7 @@ import org.springframework.stereotype.Service;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.purchase.PurchaseDao;
 import com.model2.mvc.service.purchase.PurchaseService;
-import com.model2.mvc.service.user.UserDao;
-import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
-import com.model2.mvc.service.domain.User;
 
 
 //==> 구매관리 서비스 구현
@@ -59,7 +54,6 @@ public class PurchaseServiceImpl implements PurchaseService{
 		int totalCount = purchaseDao.getTotalCount(buyerId);
 		
 		map.put("map", map );
-		
 		map.put("totalCount", new Integer(totalCount));
 		
 		return map;

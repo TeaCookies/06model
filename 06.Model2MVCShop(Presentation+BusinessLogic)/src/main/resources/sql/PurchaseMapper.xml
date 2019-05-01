@@ -55,6 +55,7 @@
 		WHERE tran_no = #{value}
 	 </select>
 	 
+	 
 	 <select 	id="getPurchase2"	parameterType="int"		resultMap="purchaseSelectMap">
 		SELECT
 		tran_no, prod_no, buyer_id, payment_option, receiver_name, receiver_phone, demailaddr, dlvy_request, tran_status_code, order_data, dlvy_date	
@@ -115,8 +116,6 @@
 
 				WHERE ROWNUM <![CDATA[ <=]]> #{endRowNum} )
 		-->
-	
-	
 	
 	
 	<!-- SQL : SELECT ROW Count -->	 

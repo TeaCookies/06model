@@ -67,7 +67,11 @@ public class ProductController {
 	}
 	
 	@RequestMapping("/getProduct.do")
-	public String getProduct( @RequestParam("prodNo") int prodNo , Model model, @CookieValue(value="history", required=false)  Cookie cookie ,HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo , 
+								@CookieValue(value="history", required=false)  Cookie cookie ,
+								Model model,
+								HttpServletRequest request, 
+								HttpServletResponse response) throws Exception {
 		
 		System.out.println("/getProduct.do");
 		
@@ -77,11 +81,8 @@ public class ProductController {
 		model.addAttribute("product", product);	
 		
 		if ( request.getParameter("menu").equals("manage") ) {
-			
 			return "forward:/updateProductView.do";
-			
 		} else {
-			
 			if (cookie != null) {
 				if (!(cookie.getValue().contains(Integer.toString(prodNo)))) {
 					cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
