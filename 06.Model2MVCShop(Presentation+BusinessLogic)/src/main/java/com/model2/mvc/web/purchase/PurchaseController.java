@@ -20,7 +20,6 @@ import com.model2.mvc.service.domain.Product;
 import com.model2.mvc.service.domain.Purchase;
 import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
-import com.model2.mvc.service.product.impl.ProductServiceImpl;
 import com.model2.mvc.service.purchase.PurchaseService;
 
 
@@ -126,11 +125,9 @@ public class PurchaseController {
 		System.out.println("/updatePurchase.do");
 		//Business Logic
 		
-		System.out.println("트랜코드 확인1@@@@@"+purchase.getTranCode());
-		System.out.println("확인!!!!!! "+purchase);
-		
 		purchaseService.updatePurchase(purchase);
-
+		purchase = purchaseService.getPurchase(purchase.getTranNo());
+		
 		model.addAttribute("purchase", purchase);
 		
 		return "forward:/purchase/getPurchase.jsp?tranNo="+purchase.getTranNo();
@@ -143,10 +140,8 @@ public class PurchaseController {
 
 		System.out.println("/updateTranCode.do");
 		
-		int prodNo=Integer.parseInt(request.getParameter("prodNo"));
-		
-		Product product = productService.getProduct(prodNo);
-		purchase = purchaseService.getPurchase2(prodNo);
+		Product product = productService.getProduct(Integer.parseInt(request.getParameter("prodNo")));
+		purchase = purchaseService.getPurchase2(Integer.parseInt(request.getParameter("prodNo")));
 	
 		if (request.getParameter("tranCode").trim().equals("1")) {
 			product.setProTranCode("2");
@@ -162,7 +157,7 @@ public class PurchaseController {
 		model.addAttribute("purchase", purchase);
 		
 		if (request.getParameter("tranCode").trim().equals("1")) {
-			return "forward:/listProduct.do?menu="+request.getParameter("menu");
+			return "forward:/listProduct.do?menu=manage";
 		}else {	
 			return "forward:/listPurchase.do";
 		}
@@ -180,11 +175,10 @@ public class PurchaseController {
 			search.setCurrentPage(1);
 		}
 		search.setPageSize(pageSize);
+		
 		HttpSession session = request.getSession();
 		Purchase purchase = new Purchase();
 		purchase.setBuyer((User)session.getAttribute("user"));
-		
-		//String buyerId = ((User)session.getAttribute("user")).getUserId();
 		
 		// Business logic 수행
 		Map<String , Object> map=purchaseService.getPurchaseList(search, purchase.getBuyer().getUserId());
@@ -197,8 +191,9 @@ public class PurchaseController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		System.out.println("@@@    list    @@@@"+map.get("list"));
-		
 		return "forward:/purchase/listPurchase.jsp";
 	}
+	
+	
+	
 }

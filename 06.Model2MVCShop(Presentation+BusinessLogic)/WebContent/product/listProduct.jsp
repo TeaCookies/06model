@@ -23,7 +23,8 @@
 		action="/listProduct.do?menu=${param.menu}"
 		method="post">
 		
-		<input type="hidden" name="menu" value="${param.menu}" />
+	<input type="hidden" name="menu" value="${param.menu}">
+		
 		<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<td width="15" height="37">
@@ -124,7 +125,7 @@
 							판매완료
 					 	
 						<c:if test="${param.menu =='manage'}">
-							<a href="updateTranCode.do?prodNo=${product.prodNo}
+							<a href="/updateTranCode.do?prodNo=${product.prodNo}
 									&tranCode=${product.proTranCode}">배송하기</a>
 						</c:if>
 					</c:when>
