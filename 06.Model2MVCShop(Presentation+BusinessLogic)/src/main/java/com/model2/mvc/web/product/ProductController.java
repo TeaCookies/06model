@@ -99,7 +99,7 @@ public class ProductController {
 			return modelAndView;
 			
 		} else {
-			if (cookie != null) {
+			if (cookie != null & cookie.getName().equals("history")) {
 				if (!(cookie.getValue().contains(Integer.toString(prodNo)))) {
 					cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
 					response.addCookie(cookie);
