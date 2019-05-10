@@ -1,16 +1,26 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.DiskFileUpload;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +42,12 @@ public class ProductController {
 	@Autowired
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
+	
+	@Resource(name="uploadPath")
+	String uploadPath;
+	
 	//setter Method 구현 않음
+	
 		
 	public ProductController(){
 		System.out.println(this.getClass());
@@ -65,10 +80,12 @@ public class ProductController {
 	
 	
 	@RequestMapping("/addProduct.do")
-	public ModelAndView addUser( @ModelAttribute("product") Product product ) throws Exception {
+	public ModelAndView addUser( @ModelAttribute("product") Product product, HttpServletRequest request ) throws Exception {
 
 		System.out.println("/addProduct.do");
 		//Business Logic
+		
+		
 		productService.addProduct(product);
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -99,7 +116,7 @@ public class ProductController {
 			return modelAndView;
 			
 		} else {
-			if (cookie != null & cookie.getName().equals("history")) {
+			if (cookie != null ) {
 				if (!(cookie.getValue().contains(Integer.toString(prodNo)))) {
 					cookie.setValue(cookie.getValue()+","+Integer.toString(prodNo));
 					response.addCookie(cookie);
