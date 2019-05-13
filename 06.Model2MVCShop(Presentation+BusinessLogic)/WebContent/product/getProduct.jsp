@@ -1,6 +1,6 @@
 <%@page import="com.model2.mvc.service.domain.Product"%>
 <%@ page contentType="text/html; charset=euc-kr"%>
-
+<%@page pageEncoding="EUC-KR"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -73,6 +73,8 @@
 				</td>
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01"><img src="../images/uploadFiles/${product.fileName}" />
+				
+				<% System.out.println(" @@@@@@@@@   확인"+((Product)(request.getAttribute("product"))).getFileName()); %>
 				</td>
 			</tr>
 			<tr>
@@ -109,7 +111,6 @@
 				<td width="104" class="ct_write">등록일자</td>
 				<td bgcolor="D6D6D6" width="1"></td>
 				<td class="ct_write01">${ product.regDate }</td>
-				
 			</tr>
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>

@@ -1,18 +1,12 @@
 package com.model2.mvc.web.product;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
+
 import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +40,8 @@ public class ProductController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 
 	//setter Method 구현 않음
 	
@@ -86,9 +82,7 @@ public class ProductController {
 		System.out.println("/addProduct.do");
 		//Business Logic
 		
-		
-		product.setFileName(UploadFile.saveFile(mtfRequest.getFile("file")));
-
+		product.setFileName(UploadFile.saveFile(mtfRequest.getFile("file"),uploadPath));
 		productService.addProduct(product);
 		
 		ModelAndView modelAndView = new ModelAndView();
@@ -109,6 +103,9 @@ public class ProductController {
 		
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
+		System.out.println("■■■■■■      파일 이름 확인      ■■■■■■■■■■"+product.getFileName());
+		System.out.println("■■■■■■      파일 이름 확인      ■■■■■■■■■■");
+		
 		// Model 과 View 연결
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("product", product);	
