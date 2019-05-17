@@ -103,8 +103,7 @@ public class ProductController {
 		
 		//Business Logic
 		Product product = productService.getProduct(prodNo);
-		System.out.println("■■■■■■      파일 이름 확인      ■■■■■■■■■■"+product.getFileName());
-		System.out.println("■■■■■■      파일 이름 확인      ■■■■■■■■■■");
+		System.out.println("■■■■■■      파일 이름 확인      ■■■■■■■■■■"+product.getFileName());	
 		
 		// Model 과 View 연결
 		ModelAndView modelAndView = new ModelAndView();
